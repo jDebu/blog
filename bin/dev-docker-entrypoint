@@ -1,0 +1,29 @@
+#!/bin/bash -e
+# docker-entrypoint.sh
+
+# If running the rails server then create or migrate existing database
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  # Wait for PostgreSQL to be ready
+  until pg_isready -h $DB_HOST -p 5432 -U $DB_USERNAME -d $DB_NAME_POSTGRES
+  do
+    echo "Waiting for PostgreSQL to be ready..."
+    sleep 2
+  done
+
+  # Create user and database
+  ./bin/rails db:prepare
+
+  # Additional commands to create user, database, and grant privileges
+  psql -h $DB_HOST -U $DB_USERNAME -d $DB_NAME_POSTGRES -c "CREATE USER rails WITH PASSWORD 'postgres';"
+  psql -h $DB_HOST -U $DB_USERNAME -d $DB_NAME_POSTGRES -c "CREATE DATABASE blog_backend_development;"
+  psql -h $DB_HOST -U $DB_USERNAME -d $DB_NAME_POSTGRES -c "GRANT ALL PRIVILEGES ON DATABASE blog_backend_development TO rails;"
+
+  # Install dependencies
+  bundle install
+
+  # Run migrations
+  ./bin/rails db:migrate
+fi
+
+# Execute the passed command
+exec "${@}"

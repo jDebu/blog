@@ -7,4 +7,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :api do
+    resources :articles
+  end
+  namespace :admin do
+    resources :sessions, only: [:create]
+    delete 'sessions', to: 'sessions#destroy', as: 'destroy_admin_session'
+    namespace :api do
+      resources :articles
+      resources :images
+    end
+  end
 end

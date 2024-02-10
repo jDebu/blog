@@ -1,24 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## BUILD
 
-Things you may want to cover:
+`docker compose --env-file .env.dev -f dev.docker-compose.yml build`
+`docker compose --env-file .env.dev -f dev.docker-compose.yml up -d`
 
-* Ruby version
+## DOWN
+`docker compose --env-file .env.dev -f dev.docker-compose.yml down`
 
-* System dependencies
+## GO TO CONTAINER
+`docker exec -it container_name bash`
 
-* Configuration
+## DESTROY
 
-* Database creation
+> Delete all containers
 
-* Database initialization
+`docker rm -f $(docker ps -a -q)`
 
-* How to run the test suite
+> Delete all volumes
 
-* Services (job queues, cache servers, search engines, etc.)
+`docker volume rm $(docker volume ls -q)`
 
-* Deployment instructions
+> Delete all images
 
-* ...
+`docker rmi $(docker images -q)`
