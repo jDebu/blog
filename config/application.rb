@@ -23,6 +23,7 @@ module BlogBackend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.hosts << "jdebu.dev"
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins ENV['FRONTEND_URL_BASE'] || 'http://localhost:3001'
