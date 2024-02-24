@@ -20,4 +20,9 @@ Rails.application.routes.draw do
       end
     end
   end
+  # Active Storage routes
+   # Custom route for Active Storage
+  #  get '/backend/rails/active_storage/disk/:encoded_key/*filename',
+  #   to: 'active_storage/disk#show',
+  #   as: :custom_backend_rails_service_blob
 end

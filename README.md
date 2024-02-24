@@ -8,6 +8,10 @@
 ## DOWN
 `docker compose --env-file ./blog-backend/.env.dev -f dev.docker-compose.yml down`
 
+## Actualizar
+`docker compose --env-file ./blog-backend/.env.dev -f dev.docker-compose.yml up -d --force-recreate backend`
+
+
 ## GO TO CONTAINER
 `docker exec -it container_name bash`
 
