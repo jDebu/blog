@@ -2,8 +2,7 @@ class Api::ArticlesController < ApiController
   before_action :set_article, only: [:update, :destroy]
 
   def index
-    @articles = Article.all
-    render json: @articles
+    @articles = Article.all.order('created_at desc')
   end
 
   def show

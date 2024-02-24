@@ -14,9 +14,9 @@ class Admin::Api::ArticlesController < ApiController
 
   def create
     @article = Article.new(article_params)
-
     if @article.save
       associate_images(@article)
+      associate_cover_image
       render json: @article, status: :created
     else
       render json: @article.errors, status: :unprocessable_entity
@@ -26,6 +26,7 @@ class Admin::Api::ArticlesController < ApiController
   def update
     if @article.update(article_params)
       associate_images(@article)
+      associate_cover_image
       render json: @article
     else
       render json: @article.errors, status: :unprocessable_entity
@@ -44,7 +45,20 @@ class Admin::Api::ArticlesController < ApiController
   end
 
   def article_params
-    params.permit(:title, :body)
+    params.permit(:title, :body, :summary)
+  end
+
+  def associate_cover_image
+    if params[:file].present?
+      file_blob = ActiveStorage::Blob.create_and_upload!(
+        io: params[:file].tempfile,
+        filename: params[:file].original_filename,
+        content_type: params[:file].content_type
+      )
+
+      @article.cover_image ||= CoverImage.new
+      @article.cover_image.file.attach(file_blob)
+    end
   end
 
 end

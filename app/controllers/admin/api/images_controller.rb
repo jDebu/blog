@@ -2,11 +2,13 @@ class Admin::Api::ImagesController < ApiController
   before_action :set_image, only: [:destroy]
 
   def index
-    @images = Image.where(article_id: nil)
+    @images = Image.where(imageable: nil)
   end
 
   def create
     @image = Image.new(image_params)
+    # article = Article.find_by(params[:article_id])
+    # @image.imageable = article
     if @image.save
       render json: @image, status: :created
     else
