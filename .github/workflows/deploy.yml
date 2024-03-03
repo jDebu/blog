@@ -21,6 +21,6 @@ jobs:
           ls -la
           cd blog-backend
           git pull
-          docker compose --env-file .env.prod -f prod.docker-compose.yml build
-          docker compose --env-file .env.prod -f prod.docker-compose.yml up -d --force-recreate backend
+          sudo docker compose --env-file .env.prod -f prod.docker-compose.yml build
+          sudo docker compose --env-file .env.prod -f prod.docker-compose.yml up -d --force-recreate backend
           echo "finish"
