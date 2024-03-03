@@ -1,4 +1,4 @@
-version: '1'
+version: '2'
 services:
   db:
     container_name: blog_db
@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-      command: /bin/bash -c "rm -f /tmp/server.pid && bundle exec rails server -b 0.0.0.0 -P /tmp/server.pid"
+    command: /bin/bash -c "rm -f /tmp/server.pid && bundle exec rails server -b 0.0.0.0 -P /tmp/server.pid"
     env_file:
       - .env.prod
     environment:
