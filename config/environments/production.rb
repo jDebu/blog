@@ -66,6 +66,19 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  if Rails.root.join("tmp/caching-dev.txt").exist?
+    config.action_controller.perform_caching = true
+    config.action_controller.enable_fragment_cache_logging = true
+
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+    }
+  else
+    config.action_controller.perform_caching = false
+
+    config.cache_store = :null_store
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
@@ -86,6 +99,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.active_record.migration_error = :page_load
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
@@ -94,4 +108,9 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.action_controller.raise_on_missing_callback_actions = true
+
+  config.hosts << "jdebu.dev"
+  config.action_mailer.default_url_options = { host: 'jdebu.dev' }
+  Rails.application.routes.default_url_options = config.action_mailer.default_url_options
 end
