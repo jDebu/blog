@@ -13,6 +13,9 @@
 `docker compose --env-file .env.prod -f prod.docker-compose.yml build`
 `docker compose --env-file .env.prod -f prod.docker-compose.yml up -d --force-recreate backend`
 
+## Rails commands
+`docker compose --env-file .env.prod -f prod.docker-compose.yml exec backend bin/rails c`
+`docker compose --env-file .env.prod -f prod.docker-compose.yml exec backend bin/rails db:migrate RAILS_ENV=production`
 
 ## GO TO CONTAINER
 `docker exec -it container_name bash`

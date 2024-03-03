@@ -24,4 +24,5 @@ jobs:
           sudo su
           docker compose --env-file .env.prod -f prod.docker-compose.yml build
           docker compose --env-file .env.prod -f prod.docker-compose.yml up -d
+          docker compose --env-file .env.prod -f prod.docker-compose.yml exec backend bin/rails db:migrate RAILS_ENV=production
           echo "finish"
